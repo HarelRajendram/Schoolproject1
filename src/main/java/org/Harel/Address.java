@@ -16,6 +16,11 @@ public class Address {
     private Province province;
     private String postalCode;
 
+    /**
+     * checks if a postcode is valid or not
+     * @param postalCode is the postal code to verify
+     * @return a boolean value whether the postal code is valid or not
+     */
     public static boolean isPostalCodeValid(String postalCode) {
         if (postalCode == null || postalCode.length() != 6) {
             return false;
