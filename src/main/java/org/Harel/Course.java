@@ -1,6 +1,7 @@
 package org.Harel;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Course {
     private String courseId;
@@ -68,5 +69,30 @@ public class Course {
             a.getScores().add(null);
         }
         return true;
+    }
+    public void generateScores() {
+        Random rand = new Random();
+        for (Assignment a : assignment) {
+            a.getScores().clear();
+
+            for (int i = 0; i < registeredStudents.size();i++) {
+                int score = rand.nextInt(0, 100);
+                a.getScores().add(score);
+            }
+        }
+        finalScores.clear();
+
+        for (int i = 0; i < registeredStudents.size(); i++) {
+            double total = 0;
+
+            for (Assignment a : assignment) {
+                int score = a.getScores().get(i);
+                total += score * (a.getWeight() / 100.0);
+            }
+            finalScores.add((int) Math.round(total));
+        }
+    }
+    public void displayScores() {
+        System.out.println("Course:" + courseName + courseId);
     }
 }
