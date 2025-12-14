@@ -11,13 +11,23 @@ public class Course {
     private ArrayList<Student> registeredStudents = new ArrayList<>();
     private static int nextId = 1;
 
+    /**
+     *
+     * @return
+     */
     public boolean isAssignmentWeightValid() {
         int sum = 0;
         for ( Assignment a : assignment) {
             sum += a.getWeight();
         }
-        return sum ==100;
+        return sum == 100;
     }
+
+    /**
+     *
+     * @param student
+     * @return
+     */
     public boolean registerStudent(Student student) {
         if (student == null) {
             return false;
@@ -31,6 +41,32 @@ public class Course {
         }
         finalScores.add(null);
 
+        return true;
+    }
+    public int[] calcStudentsAverage() {
+        int numStudent = registeredStudents.size();
+        int[] averages = new int[numStudent];
+        for (int i = 0; i <= numStudent; i++) {
+            double total = 0;
+            for (Assignment a : assignment) {
+                Integer score = a.getScores().get(i);
+                if (score != null) {
+                    total += score * (a.getWeight() / 100.0);
+                }
+            }
+            averages[i] = (int) Math.round(total);
+        }
+        return averages;
+    }
+    public boolean addAssignment(String assignmentName, double weight, int maxScore) {
+        if (assignmentName == null || weight < 0 || maxScore < 0) {
+            return false;
+        }
+        Assignment a = new Assignment(assignmentName, weight, maxScore);
+        assignment.add(a);
+        for (int i = 0; i < registeredStudents.size(); i++) {
+            a.getScores().add(null);
+        }
         return true;
     }
 }
