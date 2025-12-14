@@ -18,9 +18,17 @@ public class Student {
         if (course == null) {
             return false;
         }
-        if (registeredCourses.contains(course)) {
-            return true;
-        }
+        course.getRegisteredStudents().add(this);
 
+        if (registeredCourses.contains(course)) {
+            return false;
+        } else {
+            registeredCourses.add(course);
+        }
+        for (Assignment a:  course.getAssignments()) {
+            a.getScores().add(null);
+        }
+        return true;
     }
+
 }
