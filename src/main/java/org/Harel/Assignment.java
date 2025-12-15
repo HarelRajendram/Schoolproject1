@@ -11,6 +11,7 @@ public class Assignment {
     private String assignmentId;
     private String assignmentName;
     private double weight;
+    private int maxScore;
     private ArrayList<Integer> scores = new ArrayList<>();
     private static int nextId = 1;
 
@@ -53,11 +54,11 @@ public class Assignment {
             scores.set(i ,score);
         }
     }
-    public Assignment (String assignmentName, double weight) {
-        this.assignmentId = String.valueOf(nextId++);
+    public Assignment(String assignmentName, double weight, int maxScore) {
         this.assignmentName = assignmentName;
         this.weight = weight;
-
+        this.maxScore = maxScore;
+        this.scores = new ArrayList<>();
     }
     @Override
     public String toString() {

@@ -21,57 +21,84 @@ public class Student {
     public enum Gender {
         MALE, FEMALE
     }
+
+    /**
+     *register the student to a course
+     * @param course is the course where the student registers to
+     * @return boolean value if student is registered to course or already in a course
+     */
     public boolean registerCourse(Course course) {
-        if (course == null) {
+        if (course == null)
             return false;
-        }
-        course.getRegisteredStudents().add(this);
 
         if (registeredCourses.contains(course)) {
             return false;
-        } else {
-            registeredCourses.add(course);
         }
-        for (Assignment a:  course.getAssignments()) {
+        registeredCourses.add(course);
+        course.getRegisteredStudents().add(this);
+
+        for (Assignment a : course.getAssignment()) {
             a.getScores().add(null);
         }
+        course.getFinalScores().add(null);
         return true;
     }
+    /**
+     * Drops a course for the student
+     * @param course is the course where we remove the student from
+     * @return a boolean value to remove the student from the course
+     */
     public boolean dropCourse(Course course) {
-        if (!registeredCourses.contains(course)) {
-            return false
-        } else {
-            registeredCourses.remove(course);
-            registeredStudents.remove(this);
+        if (course == null || !registeredCourses.contains(course)) {
+            return false;
         }
+        int index = course.getRegisteredStudents().indexOf(this);
+        registeredCourses.remove(course);
+        course.getRegisteredStudents().remove(this);
+
+        for (Assignment a : course.getAssignment()) {
+            a.getScores().remove(index);
+        }
+        course.getFinalScores().remove(index);
         return true;
     }
-    public Student (String studentName, Gender gender, Address address, Department department) {
+
+    public Student(String studentName, Gender gender, Address address, Department department) {
         this.studentId = String.format("S%06d", nextId++);
         this.address = address;
         this.department = department;
         this.studentName = Util.toTitleCase(studentName);
-        this.gender= gender;
+        this.gender = gender;
 
         this.registeredCourses = new ArrayList<>();
     }
+
     public String toSimplifiedString() {
-        return studentId + " " + studentName + " (" + department.getDepartmentName()+ ")";
+        return studentId + " " + studentName + " (" + department.getDepartmentName() + ")";
     }
 
     @Override
     public String toString() {
-        String courses ="[";
-        for (Course c : registeredCourses) {
-            courses += c.toSimplifiedString() + ", ";
+        String result = "Student ID: " + studentId +
+                ", Name: " + studentName +
+                ", Gender: " + gender +
+                ", Address: " + address +
+                ", Department: " + department.getDepartmentName() +
+                "\nRegistered courses: ";
+
+        if (registeredCourses.isEmpty()) {
+            result += "None";
+        } else {
+            for (int i = 0; i < registeredCourses.size(); i++) {
+                Course course = registeredCourses.get(i);
+                result += course.getCourseId() + " - " +
+                        course.getCourseName() + " (" +
+                        course.getDepartment().getDepartmentName() + ")";
+                if (i < registeredCourses.size() - 1) {
+                    result += ", ";
+                }
+            }
         }
-        return "Student{" +
-                "studentId='" + studentId + '\'' +
-                ", studentName='" + studentName + '\'' +
-                ", gender=" + gender +
-                ", address=" + address +
-                ", department=" + department +
-                ", registeredCourses=" + registeredCourses.c +
-                '}';
+        return result;
     }
 }

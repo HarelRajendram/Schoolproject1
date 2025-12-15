@@ -127,7 +127,6 @@ public class Course {
 
             System.out.println();
         }
-
         System.out.printf("%-20s", "Average");
 
         for (Assignment a : assignment) {
@@ -140,11 +139,9 @@ public class Course {
                     count++;
                 }
             }
-
             int avg = count == 0 ? 0 : Math.round(total / count);
             System.out.printf("%-15d", avg);
         }
-
         System.out.println();
     }
 
@@ -180,9 +177,6 @@ public class Course {
         return result;
     }
 
-    /**
-     * Constructor.
-     */
     public Course(String courseName, double credits, Department department) {
         this.courseId = String.format("C-%s-%02d", department.getDepartmentId(), nextId++);
         this.courseName = courseName;

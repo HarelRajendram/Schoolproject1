@@ -1,7 +1,11 @@
 package org.Harel;
 
 public class Util {
-
+    /**
+     * converts each word in a string to title case
+     * @param str is the String to convert to title case
+     * @return the String separated by space in title case
+     */
     public static String toTitleCase(String str) {
         if (str == null || str.isEmpty()) {
             return null;
